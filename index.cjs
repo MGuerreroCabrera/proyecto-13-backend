@@ -19,11 +19,6 @@ app.use(cors());
 // Permitir que el servidor reciba datos en formato json
 app.use(express.json());
 
-// Enrutado de la aplicación
-// app.use("/api/v1", (req, res) => {
-//     return res.status(200).json({ message: "Bienvenido a nuestra API" });
-// });
-
 app.use("/api/v1/", mainRouter);
 
 // Crear ruta * para manejar errores 404
