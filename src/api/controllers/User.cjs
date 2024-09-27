@@ -1,4 +1,4 @@
-import { returnMessage } from "../../utils/returnMessage.cjs";
+const { returnMessage } = require("../../utils/returnMessage.cjs");
 
 const User = require("../models/User.cjs");
 

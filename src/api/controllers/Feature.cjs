@@ -1,7 +1,7 @@
-import { returnMessage } from "../../utils/returnMessage.cjs";
+const { returnMessage } = require("../../utils/returnMessage.cjs");
 
 // Importar el modelo
-const Feature = require("../models/feature");
+const Feature = require("../models/Feature.cjs");
 
 // Función que lista los registros de la colección
 const getFeatures = async (req, res, next) => {

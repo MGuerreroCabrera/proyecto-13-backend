@@ -1,6 +1,6 @@
-const Customer = require("../models/Customer");
+const Customer = require("../models/Customer.cjs");
 
-import { returnMessage } from "../../utils/returnMessage.cjs";
+const { returnMessage } = require("../../utils/returnMessage.cjs");
 
 // Función que devulve el listado de registros de la colección
 const getCustomers = async (req, res, next) => {

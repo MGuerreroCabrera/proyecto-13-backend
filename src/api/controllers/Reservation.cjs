@@ -1,7 +1,7 @@
-import { returnMessage } from "../../utils/returnMessage.cjs";
+const { returnMessage } = require("../../utils/returnMessage.cjs");
 
 // Importar modelo
-const Reservation = require("../models/reservation");
+const Reservation = require("../models/Reservation.cjs");
 
 
 // Función que lista todos los registros de la colección

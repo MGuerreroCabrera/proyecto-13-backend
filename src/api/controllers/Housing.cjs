@@ -1,7 +1,7 @@
-import { returnMessage } from "../../utils/returnMessage.cjs";
+const { returnMessage } = require("../../utils/returnMessage.cjs");
 
 // Importar el modelo Housing
-const Housing = require("../models/Housing");
+const Housing = require("../models/Housing.cjs");
 
 // Función que lista todos los registros de la colección
 const getHousings = async (req, res, next) => {
@@ -97,7 +97,7 @@ const deleteHousing = async (req, res, next) => {
 }
 
 // Función que elimina una caracterísica de una vivienda
-const deleteFeature = async (req, res, next) => {
+const deleteHousingFeature = async (req, res, next) => {
     try {
         // Recoger id de vivienda y de la caracterísica a eliminar
         const { housingId, featureId } = req.params;
@@ -176,4 +176,4 @@ const deleteHousingImage = async (req, res, next) => {
 }
 
 // Exportar las funciones del controlador
-module.exports = { getHousings, getHousingById, postHousing, putHousing, deleteHousing, deleteFeature, postHousingImage, deleteHousingImage }  
+module.exports = { getHousings, getHousingById, postHousing, putHousing, deleteHousing, deleteHousingFeature, postHousingImage, deleteHousingImage }
