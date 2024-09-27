@@ -5,19 +5,19 @@ const userRoutes = require('express').Router();
 const { getUsers, getUserById, postUser, putUser, deleteUser } = require("../controllers/User.cjs");
 
 // Ruta para el listado por id
-userRoutes.get("/users/:id", getUserById);
+userRoutes.get("/:id", getUserById);
 
 // Ruta para el listado de registros
-userRoutes.get('/users', getUsers);
+userRoutes.get('/', getUsers);
 
 // Ruta para insertar un registro
-userRoutes.post('/users', postUser);
+userRoutes.post('/', postUser);
 
 // Ruta para actualizar un registro
-userRoutes.put('/users/:id', putUser);
+userRoutes.put('/:id', putUser);
 
 // Ruta para eliminar un registro
-userRoutes.delete('/users/:id', deleteUser); 
+userRoutes.delete('/:id', deleteUser); 
 
 // Exportar las rutas
 module.exports = userRoutes;

@@ -24,7 +24,7 @@ app.use(express.json());
 //     return res.status(200).json({ message: "Bienvenido a nuestra API" });
 // });
 
-app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/", mainRouter);
 
 // Crear ruta * para manejar errores 404
 app.use("*", (req, res) => {

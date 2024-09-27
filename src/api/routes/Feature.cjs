@@ -5,19 +5,19 @@ const featureRoutes = require('express').Router();
 const { getFeatures, getFeature, postFeature, putFeature, deleteFeature } = require("../controllers/Feature.cjs");
 
 // Ruta para el listado por id
-featureRoutes.get('/features/:id', getFeature);
+featureRoutes.get('/:id', getFeature);
 
 // Ruta para el listado de registros
-featureRoutes.get('/features', getFeatures);
+featureRoutes.get('/', getFeatures);
 
 // Ruta para insertar un registro
-featureRoutes.post('/features', postFeature);
+featureRoutes.post('/', postFeature);
 
 // Ruta para actualizar un registro
-featureRoutes.put('/features/:id', putFeature);
+featureRoutes.put('/:id', putFeature);
 
 // Ruta para eliminar un registro
-featureRoutes.delete('/features/:id', deleteFeature);
+featureRoutes.delete('/:id', deleteFeature);
 
 // Exportar las rutas
 module.exports = featureRoutes;

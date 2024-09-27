@@ -5,19 +5,19 @@ const customerRoutes = require('express').Router();
 const { getCustomers, getCustomerById, postCustomer, putCustomer, deleteCustomer } = require("../controllers/Customer.cjs");
 
 // Ruta para el listado por id
-customerRoutes.get('/customers/:id', getCustomerById);
+customerRoutes.get('/:id', getCustomerById);
 
 // Ruta para el listado de registros
-customerRoutes.get('/customers', getCustomers);
+customerRoutes.get('/', getCustomers);
 
 // Ruta para insertar un registro
-customerRoutes.post('/customers', postCustomer);
+customerRoutes.post('/', postCustomer);
 
 // Ruta para actualizar un registro
-customerRoutes.put('/customers/:id', putCustomer);
+customerRoutes.put('/:id', putCustomer);
 
 // Ruta para eliminar un registro
-customerRoutes.delete('/customers/:id', deleteCustomer); 
+customerRoutes.delete('/:id', deleteCustomer); 
 
 // Exportar las rutas
 module.exports = customerRoutes;
