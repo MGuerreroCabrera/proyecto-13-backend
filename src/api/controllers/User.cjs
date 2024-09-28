@@ -1,6 +1,8 @@
 const { returnMessage } = require("../../utils/returnMessage.cjs");
+const bcrypt = require("bcrypt");
 
 const User = require("../models/User.cjs");
+const { generateSign } = require("../../config/jwt.cjs");
 
 // Función que devuelve todos los usuarios de la base de datos.
 const getUsers = async (req, res, next) => {
@@ -34,19 +36,53 @@ const getUserById = async (req, res, next) => {
 }
 
 // Función que crea un nuevo usuario.
-const postUser = async (req, res, next) => {
+const register = async (req, res, next) => {
     try {
         // Recoger los datos del nuevo usuario
-        const newUser = new User(req.body);
+        const newUser = new User({
+            name: req.body.name,
+            email: req.body.email,
+            password: req.body.password,
+            rol: req.body.rol
+        });
+
+        // Control para usuario duplicado
+        const userDuplicated = await User.findOne({ email: req.body.email });
+
+        if (userDuplicated) {
+            returnMessage(res, 400, "Registro duplicado");
+        }
 
         // Crear nuevo registro en la base de datos
         const userSaved = await newUser.save();
 
         // Devolver resultado OK y registro guardado
-        returnMessage(res, 200, "Registro creado con éxito", userSaved);
+        returnMessage(res, 201, "Registro creado con éxito", userSaved);
 
     } catch (error) {
         returnMessage(res, 400, "Error al crear el registro");
+    }
+}
+
+// Función para hacer login
+const login = async (req, res, next) => {
+    try {
+        // Comprobar que existe la dirección de correo electrónico
+        const user = await User.findOne({ email: req.body.email });
+
+        if(!user){
+            returnMessage(res, 400, "Datos de acceso incorrectos", req.body.email);
+        }
+
+        // Comprobar la contraseña
+        if(bcrypt.compareSync(req.body.password, user.password)){
+           const token = generateSign(user._id); 
+        }else{
+            returnMessage(res, 400, "Datos de acceso incorrectos", req.body.email);
+        }
+
+    } catch (error) {
+        returnMessage(res, 400, "Error al hacer login");
     }
 }
 
@@ -60,7 +96,7 @@ const putUser = async (req, res, next) => {
         const newUser = new User(req.body);
 
         // Poner mismo id al nuevo registro
-        newUser._id = id;
+        newUser._id = id;        
 
         // Actualizar registro en la base de datos
         const userUpdated = await User.findByIdAndUpdate(id, newUser, { new: true });
@@ -90,4 +126,4 @@ const deleteUser = async (req, res, next) => {
     }
 }
 
-module.exports = { getUsers, getUserById, putUser, postUser, deleteUser }
+module.exports = { getUsers, getUserById, putUser, register, login, deleteUser }

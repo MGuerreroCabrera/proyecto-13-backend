@@ -1,6 +1,7 @@
 // Importar el método Routes de express
 const housingRoutes = require('express').Router();
 
+const { isAuth } = require('../../middlewares/auth.cjs');
 // Importar los métodos del controlador
 const { getHousingById, getHousings, postHousing, putHousing, deleteHousing, deleteHousingFeature, postHousingImage, deleteHousingImage } = require("../controllers/Housing.cjs");
 
@@ -11,13 +12,13 @@ housingRoutes.get("/:id", getHousingById)
 housingRoutes.get("/", getHousings);
 
 // Ruta para insertar un registro
-housingRoutes.post("/", postHousing);
+housingRoutes.post("/", [isAuth], postHousing);
 
 // Ruta para actualizar un registro
-housingRoutes.put("/:id", putHousing);
+housingRoutes.put("/:id", [isAuth], putHousing);
 
 // Ruta para eliminar un registro
-housingRoutes.delete("/:id", deleteHousing);
+housingRoutes.delete("/:id", [isAuth], deleteHousing);
 
 // Exportar las rutas
 module.exports = housingRoutes;

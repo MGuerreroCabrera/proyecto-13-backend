@@ -1,6 +1,7 @@
 // Importar el método Routes de express
 const featureRoutes = require('express').Router();
 
+const { isAuth } = require('../../middlewares/auth.cjs');
 // Importar el controlador Features
 const { getFeatures, getFeature, postFeature, putFeature, deleteFeature } = require("../controllers/Feature.cjs");
 
@@ -11,13 +12,13 @@ featureRoutes.get('/:id', getFeature);
 featureRoutes.get('/', getFeatures);
 
 // Ruta para insertar un registro
-featureRoutes.post('/', postFeature);
+featureRoutes.post('/', [isAuth], postFeature);
 
 // Ruta para actualizar un registro
-featureRoutes.put('/:id', putFeature);
+featureRoutes.put('/:id', [isAuth], putFeature);
 
 // Ruta para eliminar un registro
-featureRoutes.delete('/:id', deleteFeature);
+featureRoutes.delete('/:id', [isAuth], deleteFeature);
 
 // Exportar las rutas
 module.exports = featureRoutes;

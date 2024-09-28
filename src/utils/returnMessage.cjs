@@ -1,8 +1,8 @@
-const returnMessage = (res, code, message, record = undefined) => {
+const returnMessage = (res, code, message, data = undefined) => {
     // Devolver respuesta
    return res.status(code).json({
     message: message,
-    record: record
+    data: data
    });
 }
 
