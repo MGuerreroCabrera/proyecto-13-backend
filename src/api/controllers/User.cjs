@@ -76,9 +76,10 @@ const login = async (req, res, next) => {
 
         // Comprobar la contraseña
         if(bcrypt.compareSync(req.body.password, user.password)){
-           const token = generateSign(user._id); 
+           const token = generateSign(user._id);   
+           returnMessage(res, 200, "Usuario logeado con éxito", token);
         }else{
-            returnMessage(res, 400, "Datos de acceso incorrectos", req.body.email);
+            returnMessage(res, 400, "Datos de acceso incorrectos", token);
         }
 
     } catch (error) {

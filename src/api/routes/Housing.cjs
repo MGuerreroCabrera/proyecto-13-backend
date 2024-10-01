@@ -9,10 +9,10 @@ const upload = require('../../middlewares/file.cjs');
 const { getHousingById, getHousings, postHousing, putHousing, deleteHousing, deleteHousingFeature, postHousingImage, deleteHousingImage } = require("../controllers/Housing.cjs");
 
 // Ruta para el listado por id
-housingRoutes.get("/:id", isAuth, getHousingById)
+housingRoutes.get("/:id", getHousingById)
 
 // Ruta para el listado de registros
-housingRoutes.get("/", isAuth, getHousings);
+housingRoutes.get("/", getHousings);
 
 // Ruta para insertar un registro
 housingRoutes.post("/", isAuth, postHousing);
