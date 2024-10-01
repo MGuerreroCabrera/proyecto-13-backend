@@ -1,5 +1,5 @@
 const User = require("../api/models/User.cjs");
-const { verifyToken } = require("../config/jwt.cjs");
+const { verifyJwt } = require("../config/jwt.cjs");
 
 const verifyUser = async (req, res, next, requireAdmin = false) => {
     try {
@@ -11,8 +11,10 @@ const verifyUser = async (req, res, next, requireAdmin = false) => {
         }
         // Parsear el token
         const parsedToken = token.replace("Bearer ", "");
+
         // Obtenermos el id del usuario tras pasar el token parseado por la función verifyJwt
-        const { id } = verifyToken(parsedToken) ;
+        const { id } = verifyJwt(parsedToken) ;
+
         // Buscar el usuario en la BBDD por su id
         const userLoged = await User.findById(id);
         

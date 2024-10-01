@@ -6,22 +6,22 @@ const { isAdmin, isAuth } = require('../../middlewares/auth.cjs');
 const { getUsers, getUserById, putUser, deleteUser, register, login } = require("../controllers/User.cjs");
 
 // Ruta para el listado por id
-userRoutes.get("/:id", [isAuth], getUserById);
+userRoutes.get("/:id", isAuth, getUserById);
 
 // Ruta para el listado de registros
-userRoutes.get('/', [isAdmin], getUsers);
+userRoutes.get('/', isAdmin, getUsers);
 
 // Ruta para insertar un registro
-userRoutes.post('/register', [isAdmin], register);
+userRoutes.post('/register', isAdmin, register);
 
 // Ruta para realizar login
 userRoutes.post('/login', login);
 
 // Ruta para actualizar un registro
-userRoutes.put('/:id', [isAuth], putUser);
+userRoutes.put('/:id', isAuth, putUser);
 
 // Ruta para eliminar un registro
-userRoutes.delete('/:id', [isAdmin], deleteUser); 
+userRoutes.delete('/:id', isAdmin, deleteUser); 
 
 // Exportar las rutas
 module.exports = userRoutes;

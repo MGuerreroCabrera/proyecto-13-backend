@@ -3,6 +3,9 @@ const { returnMessage } = require("../../utils/returnMessage.cjs");
 // Importar el modelo Housing
 const Housing = require("../models/Housing.cjs");
 
+// Importar la configuración de cloudinary
+const cloudinary = require("../../config/cloudinaryConfig.cjs");
+
 // Función que lista todos los registros de la colección
 const getHousings = async (req, res, next) => {
     try {
@@ -127,9 +130,6 @@ const postHousingImage = async (req, res, next) => {
         // Recoger el id de la vivienda
         const { housingId } = req.params;
 
-        // Recoger la url y el alt de la imagen
-        const { url, alt } = req.body;
-
         // Buscar la vivienda por ID
         const housing = await Housing.findById(housingId);
         if (!housing) {
@@ -137,7 +137,7 @@ const postHousingImage = async (req, res, next) => {
         }
 
         // Agregar la nueva imagen a la lista de imágenes
-        housing.images.push({ url, alt });
+        housing.images.push({ url: req.file.path, alt: req.body.alt || "Vivienda ofertada en Hosty House" });
         
         // Guardar los cambios
         const housingSaved = await housing.save();
@@ -153,8 +153,11 @@ const postHousingImage = async (req, res, next) => {
 // Crear función que elimina una imagen de un registro de la colección
 const deleteHousingImage = async (req, res, next) => {
     try {
-        // Recoger el id de la vivienda y el id de la imagen a eliminar
-        const { housingId, imageId } = req.params;
+        // Recoger el id de la vivienda
+        const { housingId } = req.params;
+
+        // Recoger la url de la imagen a eliminar
+        const { imageUrl } = req.body;
 
         // Buscar la vivienda por ID
         const housing = await Housing.findById(housingId);
@@ -162,8 +165,21 @@ const deleteHousingImage = async (req, res, next) => {
             returnMessage(res, 404, "Vivienda no encontrada", housingId);
         }
 
+        // Buscar la imagen a eliminar
+        const imageToDelete = housing.images.find(img => img.url === imageUrl);
+
+        // Comprobar que hay imagen para eliminar
+        if(!imageToDelete) {
+            returnMessage(res, 404, "Imagen no encontrada", imageUrl);
+        }
+
+        // Eliminar la imagen de cloudinary
+        const publicId = url.split("/").pop().split(".")[0];
+        await cloudinary.v2.uploader.destroy(publicId);
+        
+
         // Eliminar la imagen de la lista de imágenes
-        housing.images = housing.images.filter(img => img._id.toString() !== imageId);
+        housing.images = housing.images.filter(img => img.url !== imageUrl);
         
         // Guardar los cambios
         const housingSaved = await housing.save();

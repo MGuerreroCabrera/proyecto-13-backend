@@ -12,13 +12,13 @@ featureRoutes.get('/:id', getFeature);
 featureRoutes.get('/', getFeatures);
 
 // Ruta para insertar un registro
-featureRoutes.post('/', [isAuth], postFeature);
+featureRoutes.post('/', isAuth, postFeature);
 
 // Ruta para actualizar un registro
-featureRoutes.put('/:id', [isAuth], putFeature);
+featureRoutes.put('/:id', isAuth, putFeature);
 
 // Ruta para eliminar un registro
-featureRoutes.delete('/:id', [isAuth], deleteFeature);
+featureRoutes.delete('/:id', isAuth, deleteFeature);
 
 // Exportar las rutas
 module.exports = featureRoutes;
