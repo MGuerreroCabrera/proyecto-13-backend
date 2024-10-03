@@ -38,6 +38,13 @@ const getUserById = async (req, res, next) => {
 // Función que crea un nuevo usuario.
 const register = async (req, res, next) => {
     try {
+        // Control para usuario duplicado
+        const userDuplicated = await User.findOne({ email: req.body.email });
+
+        if (userDuplicated) {
+            returnMessage(res, 400, "Registro duplicado");
+        }
+
         // Recoger los datos del nuevo usuario
         const newUser = new User({
             name: req.body.name,
@@ -45,13 +52,6 @@ const register = async (req, res, next) => {
             password: req.body.password,
             rol: req.body.rol
         });
-
-        // Control para usuario duplicado
-        const userDuplicated = await User.findOne({ email: req.body.email });
-
-        if (userDuplicated) {
-            returnMessage(res, 400, "Registro duplicado");
-        }
 
         // Crear nuevo registro en la base de datos
         const userSaved = await newUser.save();
@@ -92,6 +92,11 @@ const putUser = async (req, res, next) => {
     try {
         // Obtener el id del registro a actualizar
         const { id } = req.params;
+
+        // Comprobar que el usuario a modificar es el mismo que realiza la acción
+        if(req.user._id.toString() !== id){
+            returnMessage(res, 400, `${req.user.name}, no puedes modificar los datos de otro usuario`, id);
+        }
 
         // Recoger los datos del registros a actualizar
         const newUser = new User(req.body);

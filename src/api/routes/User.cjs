@@ -9,7 +9,7 @@ const { getUsers, getUserById, putUser, deleteUser, register, login } = require(
 userRoutes.get("/:id", isAuth, getUserById);
 
 // Ruta para el listado de registros
-userRoutes.get('/', getUsers);
+userRoutes.get('/', isAdmin, getUsers);
 
 // Ruta para insertar un registro
 userRoutes.post('/register', register);

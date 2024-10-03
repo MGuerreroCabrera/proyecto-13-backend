@@ -8,7 +8,7 @@ const Reservation = require("../models/Reservation.cjs");
 const getReservation = async (req, res, next) => {
     try {
         // Crear variable que contendrá los registros
-        const reservations = await Reservation.find();
+        const reservations = await Reservation.find().populate("housingId").populate("customerId");
 
         // Devolver resultado OK y los registros
         returnMessage(res, 200, "Todo ha ido OK", reservations);
@@ -24,7 +24,7 @@ const getReservationById = async (req, res, next) => {
         const { id } = req.params;
 
         // Buscar el registro por su id
-        const reservation = await Reservation.findById(id);
+        const reservation = await Reservation.findById(id).populate("housingId").populate("customerId");
 
         // Devolver resultado OK y el registro
         returnMessage(res, 200, "Todo ha ido OK", reservation);

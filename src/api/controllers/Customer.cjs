@@ -26,10 +26,10 @@ const getCustomerById = async (req, res, next) => {
         const customer = await Customer.findById(id);
 
         // Devolver resultado OK y el registro
-        returnMessage(200, "Todo ha ido OK", customer);
+        returnMessage(res, 200, "Todo ha ido OK", customer);
 
     } catch (error) {
-        returnMessage(400, "Error al listar el registro", id);
+        returnMessage(res, 400, "Error al listar el registro", id);
     }
 }
 
@@ -43,9 +43,9 @@ const postCustomer = async (req, res, next) => {
         const customerSaved = await newCustomer.save();
 
         // Devolver resultado OK y regisrto creado
-        returnMessage(201, "Registro creado con éxito", customerSaved);
+        returnMessage(res, 201, "Registro creado con éxito", customerSaved);
     } catch (error) {
-        returnMessage(400, "Error al listar el registro");
+        returnMessage(res, 400, "Error al listar el registro");
     }
 }
 
@@ -80,6 +80,11 @@ const deleteCustomer = async (req, res, next) => {
 
         // Eliminar el registro de la BBDD
         const customerDeleted = await Customer.findByIdAndDelete(id);
+
+        // Comprobar que el registro existe
+        if(!customerDeleted) {
+            returnMessage(res, 400, "Registro no encontrado", id);
+        }
 
         // Devolver resultado OK y registro eliminado
         returnMessage(res, 200, "Registro eliminado con éxito", customerDeleted);

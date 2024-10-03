@@ -12,7 +12,7 @@ customerRoutes.get('/:id', isAuth, getCustomerById);
 customerRoutes.get('/', isAuth, getCustomers);
 
 // Ruta para insertar un registro
-customerRoutes.post('/', isAuth, postCustomer);
+customerRoutes.post('/', postCustomer);
 
 // Ruta para actualizar un registro
 customerRoutes.put('/:id', isAuth, putCustomer);

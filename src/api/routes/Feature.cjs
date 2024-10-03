@@ -6,7 +6,7 @@ const { isAuth } = require('../../middlewares/auth.cjs');
 const { getFeatures, getFeature, postFeature, putFeature, deleteFeature } = require("../controllers/Feature.cjs");
 
 // Ruta para el listado por id
-featureRoutes.get('/:id', getFeature);
+featureRoutes.get('/:id', isAuth, getFeature);
 
 // Ruta para el listado de registros
 featureRoutes.get('/', getFeatures);

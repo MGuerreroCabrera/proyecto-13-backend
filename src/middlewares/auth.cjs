@@ -1,32 +1,36 @@
 const User = require("../api/models/User.cjs");
 const { verifyJwt } = require("../config/jwt.cjs");
+const { returnMessage } = require("../utils/returnMessage.cjs");
 
 const verifyUser = async (req, res, next, requireAdmin = false) => {
     try {
         // Coger el token de la autorización de las headers
         const token = req.headers.authorization;
+
         // Si no hay token no está autorizado
         if(!token){
-            return res.status(400).json("Usuario no autorizado ❌");
+            returnMessage(res, 400, "Usuario no autorizado");
         }
         // Parsear el token
         const parsedToken = token.replace("Bearer ", "");
 
         // Obtenermos el id del usuario tras pasar el token parseado por la función verifyJwt
-        const { id } = verifyJwt(parsedToken) ;
+        const { id } = verifyJwt(parsedToken) ;        
 
-        // Buscar el usuario en la BBDD por su id
+        // Comprobar que el id existe en nuestra base de datos
         const userLoged = await User.findById(id);
-        
+
         // Si requireAdmin es true y el usuario no es admin, devolver error
         if(requireAdmin && userLoged.rol !== "admin") {
-            return res.status(400).json("Operación reservada a administradores");
+            returnMessage(res, 400, "Operación reservada a administradores");
         }
         
         // Poner el password a null
         userLoged.password = null
+
         // Poner los datos del usuario en el cuerpo de la petición
         req.user = userLoged;
+        
         // Pasar a lo siguiente que haya que hacer / abrir la puerta
         next();
     } catch (error) {
