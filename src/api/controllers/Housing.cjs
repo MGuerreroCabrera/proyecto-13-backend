@@ -164,7 +164,7 @@ const postHousingImage = async (req, res, next) => {
         returnMessage(res, 201, "Imagen insertada con éxito", housingSaved);
         
     } catch (error) {
-        returnMessage(res, 400, "Error al guardar la imagen", idHousing);
+        returnMessage(res, 400, "Error al guardar la imagen", error);
     }
 }
 

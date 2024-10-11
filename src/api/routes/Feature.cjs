@@ -2,7 +2,7 @@
 const featureRoutes = require('express').Router();
 
 const { isAuth } = require('../../middlewares/auth.cjs');
-const uploadIcon = require('../../middlewares/iconFIle.cjs');
+const uploadIcon = require('../../middlewares/iconFile.cjs');
 
 // Importar el controlador Features
 const { getFeatures, getFeature, postFeature, deleteFeature } = require("../controllers/Feature.cjs");
