@@ -5,10 +5,11 @@ const Reservation = require("../models/Reservation.cjs");
 
 
 // Función que lista todos los registros de la colección
-const getReservation = async (req, res, next) => {
+const getReservations = async (req, res, next) => {
     try {
         // Crear variable que contendrá los registros
         const reservations = await Reservation.find().populate("housingId").populate("customerId");
+        // const reservations = await Reservation.find();
 
         // Devolver resultado OK y los registros
         returnMessage(res, 200, "Todo ha ido OK", reservations);
@@ -34,6 +35,37 @@ const getReservationById = async (req, res, next) => {
     }
 }
 
+const checkAvailability = async (req, res, next) => {
+    try {
+        // Obtener los datos para la comprobación: checkIn, checkOut y el housingId
+        const { checkIn, checkOut, housingId } = req.body;
+
+        // Buscar reservas de esa vivienda y que se solapen las fechas
+        const conflictingReservations = await Reservation.find({
+            housingId: housingId,
+            // Buscar posibles reservas que puedan entrar en conflicto con las fechas indicadas
+            $or: [
+                { checkIn: { $lt: new Date(checkOut), $gte: new Date(checkIn) } },
+                { checkOut: { $gt: new Date(checkIn), $lte: new Date(checkOut) } },
+                { $and: [
+                    { checkIn: { $lte: new Date(checkIn) } },
+                    { checkOut: { $gte: new Date(checkOut) } }
+                ]}
+            ]
+        });
+
+        if (conflictingReservations.length > 0) {
+            // Si hay reservas conflictivas, la vivienda no está disponible
+            return returnMessage(res, 200, "La vivienda no está disponible para las fechas seleccionadas", { available: false });
+        }
+
+        // Si no hay reservas conflictivas, la vivienda está disponible
+        return returnMessage(res, 200, "La vivienda está disponible para las fechas seleccionadas", { available: true });
+    } catch (error) {
+        
+    }
+}
+
 // Función que crea un nuevo registro en la colección
 const postReservation = async (req, res, next) => {
     try {
@@ -46,7 +78,7 @@ const postReservation = async (req, res, next) => {
         // Devolver resultado OK y nuevo registro
         returnMessage(res, 201, "Registro creado con éxito", reservation);
     } catch (error) {
-        returnMessage(res, 400, "Error al crear el registro");
+        returnMessage(res, 400, "Error al crear el registro", error);
     }
 }
 
@@ -63,12 +95,13 @@ const putReservation = async (req, res, next) => {
         newReservation._id = id;
 
         // Actualizar registro en la base de datos
-        const reservationUpdated = await newReservation.findByIdAndUpdate(id, newReservation, { new: true });
+        const reservationUpdated = await Reservation.findByIdAndUpdate(id, newReservation, { new: true });
         
         // Devolver resultado OK y el registro actualizado
         returnMessage(res, 200, "Registro actualizado con éxito", reservationUpdated);
     } catch (error) {
-        returnMessage(res, 400, "Error al actualizar el registro");
+        const { id } = req.params;
+        returnMessage(res, 400, "Error al actualizar el registro", id);
     }
 }
 
@@ -89,4 +122,4 @@ const deleteReservation = async (req, res, next) => {
 }
 
 // Exportar las funciones del controlador
-module.exports = { getReservation, getReservationById, postReservation, putReservation, deleteReservation };
+module.exports = { getReservations, getReservationById, checkAvailability, postReservation, putReservation, deleteReservation };

@@ -8,12 +8,12 @@ const Housing = new mongoose.Schema(
         location: { type: String, required: true, trim: true },
         description: { type: String, required: true, trim: true },
         features: [{ 
-            feature: { type: mongoose.Schema.Types.ObjectId, ref: 'Feature' },
+            feature: { type: mongoose.Schema.Types.ObjectId, ref: 'features' },
             value: String  // Valor específico de esta característica para la vivienda
         }],
         images: [{
-            url: {type: String, required: false},
-            alt: {type: String, required: false}
+            url: { type: String, required: false },
+            alt: { type: String, required: false }
         }]
     },
     {

@@ -10,13 +10,13 @@ const cloudinary = require("../config/cloudinaryConfig.cjs");
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary, // Instancia de Cloudinary
     params: {
-        folder: "hosty_house/housings",
+        folder: "hosty_house/icons",
         allowed_formats: ["jpg", "png", "jpeg", "webp", "avif", "ico", "svg"]
     }
 });
 
 // Crear con multer el storage
-const upload = multer({ storage });
+const uploadIcon = multer({ storage });
 
 // Exportar el middleware de Multer configurado para Cloudinary
-module.exports = upload;
+module.exports = uploadIcon;

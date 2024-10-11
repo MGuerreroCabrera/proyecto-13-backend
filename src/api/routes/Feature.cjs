@@ -2,8 +2,10 @@
 const featureRoutes = require('express').Router();
 
 const { isAuth } = require('../../middlewares/auth.cjs');
+const uploadIcon = require('../../middlewares/iconFIle.cjs');
+
 // Importar el controlador Features
-const { getFeatures, getFeature, postFeature, putFeature, deleteFeature } = require("../controllers/Feature.cjs");
+const { getFeatures, getFeature, postFeature, deleteFeature } = require("../controllers/Feature.cjs");
 
 // Ruta para el listado por id
 featureRoutes.get('/:id', isAuth, getFeature);
@@ -12,10 +14,7 @@ featureRoutes.get('/:id', isAuth, getFeature);
 featureRoutes.get('/', getFeatures);
 
 // Ruta para insertar un registro
-featureRoutes.post('/', isAuth, postFeature);
-
-// Ruta para actualizar un registro
-featureRoutes.put('/:id', isAuth, putFeature);
+featureRoutes.post('/', isAuth, uploadIcon.single("icon"), postFeature);
 
 // Ruta para eliminar un registro
 featureRoutes.delete('/:id', isAuth, deleteFeature);

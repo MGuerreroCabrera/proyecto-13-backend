@@ -1,6 +1,7 @@
 const Customer = require("../models/Customer.cjs");
 
 const { returnMessage } = require("../../utils/returnMessage.cjs");
+const { checkCustomerExists } = require("../../utils/checkCustomerExists.cjs");
 
 // Función que devulve el listado de registros de la colección
 const getCustomers = async (req, res, next) => {
@@ -36,16 +37,35 @@ const getCustomerById = async (req, res, next) => {
 // Función que crea un registro en la BBDD
 const postCustomer = async (req, res, next) => {
     try {
+        // Obtener los datos del nuevo cliente
+        const newCustomerData = req.body;
+
+        // Comprobar si el cliente ya existe en la BBDD
+        const existingCustomer = await checkCustomerExists(newCustomerData.email);
+        if (existingCustomer) {
+            // Si el cliente existe y no tiene teléfono, actualizar con el nuevo número
+            if (!existingCustomer.phoneNumber && newCustomerData.phoneNumber) {
+                existingCustomer.phoneNumber = newCustomerData.phoneNumber;
+                const updatedCustomer = await existingCustomer.save();
+                return returnMessage(res, 200, "Cliente actualizado con éxito", updatedCustomer);
+            }
+
+            // Devolver los datos del cliente en cualquier otro caso
+            return returnMessage(res, 200, "Cliente ya existente", existingCustomer);     
+        }
+
+        // Si el cliente existe pero el número de teléfono es diferente, crear un nuevo cliente
+
         // Crear variable que contendrá los datos del nuevo cliente
-        const newCustomer = new Customer(req.body);
+        const newCustomer = new Customer(newCustomerData);
 
         // Guardar el nuevo cliente en la BBDD
         const customerSaved = await newCustomer.save();
 
-        // Devolver resultado OK y regisrto creado
+        // Devolver resultado OK y registro creado
         returnMessage(res, 201, "Registro creado con éxito", customerSaved);
     } catch (error) {
-        returnMessage(res, 400, "Error al listar el registro");
+        returnMessage(res, 400, "Error al crear el registro");
     }
 }
 

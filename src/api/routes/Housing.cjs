@@ -1,6 +1,7 @@
 // Importar el método Routes de express
 const housingRoutes = require('express').Router();
 
+const { uploader } = require('../../config/cloudinaryConfig.cjs');
 // Importar los middlewares
 const { isAuth } = require('../../middlewares/auth.cjs');
 const upload = require('../../middlewares/file.cjs');
@@ -24,13 +25,13 @@ housingRoutes.put("/:id", isAuth, putHousing);
 housingRoutes.delete("/:id", isAuth, deleteHousing);
 
 // Ruta para eliminar una característica de un registro
-housingRoutes.delete("/feature/:id", isAuth, deleteHousingFeature);
+housingRoutes.delete("/housing/:housingId/feature/:featureId", isAuth, deleteHousingFeature);
 
 // Ruta para insertar una imagen y subirla a cloudinary
-housingRoutes.post("/upload/:housingId", isAuth, upload.single("image"), postHousingImage);
+housingRoutes.post("/addImage/:housingId", isAuth, upload.single("url"), postHousingImage);
 
 // Ruta para eliminar una imagen de cloudinary
-housingRoutes.delete("/image/:housingId", isAuth, deleteHousingImage);
+housingRoutes.delete("/deleteHousingImage/:housingId", isAuth, deleteHousingImage);
 
 // Exportar las rutas
 module.exports = housingRoutes;
