@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 
 // Crear el esquema de la colección
-const Housing = new mongoose.Schema(
+const housingSchema = new mongoose.Schema(
     {
         name: { type: String, required: true, trim: true },
         location: { type: String, required: true, trim: true },
@@ -21,5 +21,6 @@ const Housing = new mongoose.Schema(
         collection: "housings"
     });
 
-// Exportar el modelo
-module.exports = mongoose.model("housings", Housing, "housings");
+// Crear el modelo a partir del esquema y exportarlo
+const Housing = mongoose.model("housings", housingSchema, "housings");
+module.exports = Housing;

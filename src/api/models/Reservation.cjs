@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 // Crear esquema de la reserva
-const Reservation = new mongoose.Schema(
+const reservationSchema = new mongoose.Schema(
     {
         checkIn: { type: Date, required: true },
         checkOut: { type: Date, required: true },
@@ -17,5 +17,6 @@ const Reservation = new mongoose.Schema(
         collection: "reservations"
     });
 
-// Exportar el esquema de la reserva
-module.exports = mongoose.model("reservations", Reservation, "reservations");
+// Crear el modelo a partir del esquema y exportarlo
+const Reservation = mongoose.model("reservations", reservationSchema, "reservations");
+module.exports = Reservation;

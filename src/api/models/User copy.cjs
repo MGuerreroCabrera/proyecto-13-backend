@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
 // Crear el Esquema User
-const userSchema = new mongoose.Schema(
+const User = new mongoose.Schema(
     {
         name: { type: String, required: true, trim: true },
         email: { type: String, required: true },
@@ -16,10 +16,9 @@ const userSchema = new mongoose.Schema(
     });
 
 // Encriptar la contraseña del usuario
-userSchema.pre("save", function(){
+User.pre("save", function(){
     this.password = bcrypt.hashSync(this.password, 10);
 });
 
-// Crear y el modelo a partir del esquema y exportarlo
-const User = mongoose.model("users", userSchema, "users");
-module.exports = User;
+// Exportar el esquema como un modelo
+module.exports = mongoose.model("users", User, "users");

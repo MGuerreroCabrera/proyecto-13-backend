@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 // Crear el esquema de la colección
-const Customer = new mongoose.Schema(
+const customerSchema = new mongoose.Schema(
     {
         name: { type: String, required: true, trim: true },
         lastName: { type: String, required: true, trim: true }, 
@@ -14,5 +14,6 @@ const Customer = new mongoose.Schema(
         collection: "customers"
     });
 
-// Exportar el modelo de la colección
-module.exports = mongoose.model("customers", Customer, "customers");
+// Crear el modelo a partir del esquema y exportarlo
+const Customer = mongoose.model("customers", customerSchema, "customers");
+module.exports = Customer;

@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 // Crear el esquema de las caracterísicas de la vivienda
-const Feature = new mongoose.Schema(
+const featureSchema = new mongoose.Schema(
     {
         name: { type: String, required: true },
         icon: { type: String, required: true, default: "default-icon.jpg" }
@@ -12,5 +12,6 @@ const Feature = new mongoose.Schema(
         collection: "features"
     });
 
-// Exportar el esquema Feature
-module.exports = mongoose.model("features", Feature, "features");
+// Crear el modelo a partir del esquema y exportarlo
+const Feature = mongoose.model("features", featureSchema, "features");
+module.exports = Feature;

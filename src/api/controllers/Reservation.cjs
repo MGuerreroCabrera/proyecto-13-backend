@@ -1,8 +1,15 @@
+
+const { sendMail } = require("../../utils/mailer.cjs");
 const { returnMessage } = require("../../utils/returnMessage.cjs");
 
-// Importar modelo
+// Importar modelos necesarios
 const Reservation = require("../models/Reservation.cjs");
-
+const User = require("../models/User.cjs");
+const Housing = require("../models/Housing.cjs");
+const { getUserResNotification } = require("../../utils/getUserResNotification.cjs");
+const Customer = require("../models/Customer.cjs");
+const { getCustomerResNotification } = require("../../utils/getCustomerResNotification.cjs");
+const { formatDate } = require("../../utils/formatDate.cjs");
 
 // Función que lista todos los registros de la colección
 const getReservations = async (req, res, next) => {
@@ -75,8 +82,34 @@ const postReservation = async (req, res, next) => {
         // Guardar el nuevo registro en la base de datos
         const reservation = await newReservation.save();
 
+        // Recoger los datos de la vivienda que se ha reservado
+        const housingData = await Housing.findById(reservation.housingId);
+        
+        // Recoger los datos del cliente
+        const customerData = await Customer.findById(reservation.customerId)             ;
+
+        // Buscar los usuarios en la BBDD
+        const users = await User.find();
+        
+        // Sacar datos de la reserva ( checkIn y checkOut )
+        const { checkIn, checkOut } = req.body;
+
+        // Preparar asunto y cuerpo del mensaje
+        const { subject: subject, body } = getUserResNotification(formatDate(checkIn), formatDate(checkOut), housingData, customerData);
+        
+        // Enviar correo a todos los usuarios  
+        for (const user of users) {
+            await sendMail(user.email, subject, body, body);
+        }
+
+        // Preparar asunto y cuerpo del mensaje de confirmación de reserva al cliente
+        const { customerNotificationSubject, customerNotificationBody } = getCustomerResNotification(formatDate(checkIn), formatDate(checkOut), housingData, customerData);
+
+        // Enviar correo al cliente
+        await sendMail(customerData.email, customerNotificationSubject, customerNotificationBody, customerNotificationBody);
+
         // Devolver resultado OK y nuevo registro
-        returnMessage(res, 201, "Registro creado con éxito", reservation);
+        returnMessage(res, 201, "Registro creado con éxito y correo enviado", reservation);
     } catch (error) {
         returnMessage(res, 400, "Error al crear el registro", error);
     }
