@@ -9,7 +9,7 @@ const { getCustomers, getCustomerById, postCustomer, putCustomer, deleteCustomer
 customerRoutes.get('/:id', isAuth, getCustomerById);
 
 // Ruta para el listado de registros
-customerRoutes.get('/', isAuth, getCustomers);
+customerRoutes.get('/', getCustomers);
 
 // Ruta para insertar un registro
 customerRoutes.post('/', postCustomer);

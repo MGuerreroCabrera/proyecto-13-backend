@@ -9,7 +9,7 @@ const { getReservationById, postReservation, putReservation, deleteReservation, 
 reservationRoutes.get('/:id', isAuth, getReservationById);
 
 // Ruta para el listado de registros
-reservationRoutes.get('/', isAuth, getReservations);
+reservationRoutes.get('/', getReservations);
 
 // Ruta para insertar un registro
 reservationRoutes.post('/', postReservation);

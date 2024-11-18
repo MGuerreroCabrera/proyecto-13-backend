@@ -8,11 +8,21 @@ const { deleteImageFromCloudinary } = require("../../utils/deleteImageFromCloudi
 // Función que lista todos los registros de la colección
 const getHousings = async (req, res, next) => {
     try {
-        // Crear la variable que contendrá los registros
-        const housings = await Housing.find().populate("features.feature");
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
 
-        // Devolver resultado OK y los registros
-        returnMessage(res, 200, "Todo ha ido OK", housings);
+        const housings = await Housing.find()
+            .skip((page - 1) * limit)
+            .limit(limit);
+
+        const totalRecords = await Housing.countDocuments();
+
+        return res.status(200).json({
+            records: housings,
+            totalRecords: totalRecords,
+            page: page,
+            limit: limit
+        });
     } catch (error) {
         returnMessage(res, 400, "Error al listar los registros");
     }

@@ -8,13 +8,23 @@ const { deleteImageFromCloudinary } = require("../../utils/deleteImageFromCloudi
 // Función que lista los registros de la colección
 const getFeatures = async (req, res, next) => {
     try {
-        // Crear variable que contendrá los registros
-        const features = await Feature.find();
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
 
-        // Devolver resultado OK y registros
-        returnMessage(res, 200, "Todo ha ido OK", features);
+        const features = await Feature.find()
+            .skip((page - 1) * limit)
+            .limit(limit);
+
+        const totalRecords = await Feature.countDocuments();
+
+        res.status(200).json({
+            records: features,
+            totalRecords: totalRecords,
+            page: page,
+            limit: limit
+        });
     } catch (error) {
-        returnMessage(res, 400, "Error al listar los registros");
+        res.status(500).json({ message: error.message });
     }
 }
 

@@ -6,16 +6,38 @@ const { checkCustomerExists } = require("../../utils/checkCustomerExists.cjs");
 // Función que devulve el listado de registros de la colección
 const getCustomers = async (req, res, next) => {
     try {
-        // Crear variable que contendrá los registros
-        const customers = await Customer.find();
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
 
-        // Devolver el resultado OK y el listado de registros
-        returnMessage(res, 200, "Todo ha ido OK", customers);
+        const customers = await Customer.find()
+            .skip((page - 1) * limit)
+            .limit(limit);
 
+        const totalRecords = await Customer.countDocuments();
+
+        res.status(200).json({
+            records: customers,
+            totalRecords: totalRecords,
+            page: page,
+            limit: limit
+        });
     } catch (error) {
-        returnMessage(res, 400, "Error al listar los registros");
+        res.status(500).json({ message: error.message });
     }
 }
+
+// const getCustomers = async (req, res, next) => {
+//     try {
+//         // Crear variable que contendrá los registros
+//         const customers = await Customer.find();
+
+//         // Devolver el resultado OK y el listado de registros
+//         returnMessage(res, 200, "Todo ha ido OK", customers);
+
+//     } catch (error) {
+//         returnMessage(res, 400, "Error al listar los registros");
+//     }
+// }
 
 // Función que devuelve un registro por id
 const getCustomerById = async (req, res, next) => {

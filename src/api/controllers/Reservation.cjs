@@ -15,11 +15,22 @@ const { formatDate } = require("../../utils/formatDate.cjs");
 const getReservations = async (req, res, next) => {
     try {
         // Crear variable que contendrá los registros
-        const reservations = await Reservation.find().populate("housingId").populate("customerId");
-        // const reservations = await Reservation.find();
+        //const reservations = await Reservation.find().populate("housingId").populate("customerId");
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
 
-        // Devolver resultado OK y los registros
-        returnMessage(res, 200, "Todo ha ido OK", reservations);
+        const reservations = await Reservation.find().populate("housingId").populate("customerId")
+            .skip((page - 1) * limit)
+            .limit(limit);
+
+        const totalRecords = await Reservation.countDocuments();
+
+        return res.status(200).json({
+            records: reservations,
+            totalRecords: totalRecords,
+            page: page,
+            limit: limit
+        });
     } catch (error) {
         returnMessage(res, 400, "Error al listar los registros");
     }
