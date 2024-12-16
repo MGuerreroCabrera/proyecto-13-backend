@@ -79,8 +79,9 @@ const login = async (req, res, next) => {
            const token = generateSign(user._id);   
            const data = {
             token: token,
-            name: user.name
-           }
+            name: user.name,
+            rol: user.rol
+        }
            returnMessage(res, 200, "Usuario logeado con éxito", data);
         }else{
             returnMessage(res, 400, "Datos de acceso incorrectos", token);
@@ -136,4 +137,9 @@ const deleteUser = async (req, res, next) => {
     }
 }
 
-module.exports = { getUsers, getUserById, putUser, register, login, deleteUser }
+// Función que valida si un token es válido
+const checkSession = async (req, res, next) => {
+    return res.status(200).json({ user: req.user, token: req.headers.authorization });
+}
+
+module.exports = { getUsers, getUserById, putUser, register, login, deleteUser, checkSession }

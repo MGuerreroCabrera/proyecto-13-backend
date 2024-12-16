@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const featureSchema = new mongoose.Schema(
     {
         name: { type: String, required: true },
-        icon: { type: String, required: true, default: "default-icon.jpg" }
+        icon: { type: String, required: true }
     },
     {
         timestamps: true,
