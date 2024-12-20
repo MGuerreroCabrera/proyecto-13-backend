@@ -9,7 +9,7 @@ const getCustomerResNotification = (checkIn, checkOut, housingData, customerData
         <title>Reserva Confirmada</title>
         <style>
             body {
-                background-color: #40E0D0; /* Turquesa */
+                background-color: #01B0BE;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -18,7 +18,7 @@ const getCustomerResNotification = (checkIn, checkOut, housingData, customerData
                 font-family: Arial, sans-serif;
             }
             .container {
-                background-color: #ffffff; /* Blanco */
+                background-color: #ffffff;
                 padding: 20px;
                 border-radius: 10px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -27,10 +27,10 @@ const getCustomerResNotification = (checkIn, checkOut, housingData, customerData
                 margin: 20px;
             }
             h1 {
-                color: #333333; /* Gris oscuro */
+                color: #232323; /* Gris oscuro */
             }
             p {
-                color: #666666; /* Gris medio */
+                color: #606060; /* Gris medio */
             }
         </style>
     </head>

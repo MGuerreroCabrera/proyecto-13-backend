@@ -3,16 +3,22 @@ const userRoutes = require('express').Router();
 
 const { isAdmin, isAuth } = require('../../middlewares/auth.cjs');
 // Importar el controlador User
-const { getUsers, getUserById, putUser, deleteUser, register, login, checkSession } = require("../controllers/User.cjs");
+const { getUsers, getUserById, putUser, deleteUser, register, login, checkSession, validateEmail, resetPassword } = require("../controllers/User.cjs");
+
+// Ruta para checkear la sesión del usaurio
+userRoutes.get("/checksession", isAuth, checkSession);
+
+// Ruta para validar un email registrado
+userRoutes.get("/validatemail/:email", validateEmail);
+
+// Ruta para resetear password - //! PASAR LA PETICIÓN A POST
+userRoutes.get("/resetpassword", resetPassword);
 
 // Ruta para el listado por id
 userRoutes.get("/:id", isAuth, getUserById);
 
 // Ruta para el listado de registros
 userRoutes.get('/', isAdmin, getUsers);
-
-// Ruta para checkear la sesión del usaurio
-userRoutes.get("/checksession", checkSession);
 
 // Ruta para insertar un registro
 userRoutes.post('/register', register);

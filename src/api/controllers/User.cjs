@@ -2,7 +2,9 @@ const { returnMessage } = require("../../utils/returnMessage.cjs");
 const bcrypt = require("bcrypt");
 
 const User = require("../models/User.cjs");
-const { generateSign } = require("../../config/jwt.cjs");
+const { generateSign, verifyJwt } = require("../../config/jwt.cjs");
+const { sendMail } = require("../../utils/mailer.cjs");
+const { getResetUserPWD } = require("../../utils/getUserResNotification.cjs");
 
 // Función que devuelve todos los usuarios de la base de datos.
 const getUsers = async (req, res, next) => {
@@ -142,4 +144,58 @@ const checkSession = async (req, res, next) => {
     return res.status(200).json({ user: req.user, token: req.headers.authorization });
 }
 
-module.exports = { getUsers, getUserById, putUser, register, login, deleteUser, checkSession }
+// Función que recibe una dirección de correo electrónico del usuario y devuelve si es un email válido o no
+const validateEmail = async (req, res, next) => {
+    try {
+        // Recoger el body del request que debe tener un atributo "email" con una direccion de correo electronica
+        const { email } = req.params;
+        // Buscar el email en la BBDD
+        const user = await User.findOne({ email: email });
+        // Si encuentra un usuario con este correo electrónico devuelve resultado OK y envía un email al usuario con la ruta para reestablecer contraseña. 
+        if (user) {
+            // Crear un token único
+            const token = generateSign(user._id, "1h");
+            // Obtener los el asunto y el cuerpo del email
+            const { subject, body } = getResetUserPWD(user.name, token);
+            // Enviar el email al destinatario
+            await sendMail(user.email, subject, "", body);
+            // Devolver resultado OK
+            returnMessage(res, 200, "El email es válido", token);
+        } else {
+            // Devolver email no encontrado
+            returnMessage(res, 400, "Dirección de correo electrónico no encontrada", email);
+        }
+    } catch (error) {
+        returnMessage(res, 400, "Ocurrió un error al validar el email");
+    }
+}
+
+const resetPassword = async(req, res, next) => {
+    // Obtener el token y la nueva contraseña del cuerpo de la petición
+    const { token, password } = req.body;
+
+    try {
+        
+        // Decodificar y verificar el token
+        const data = verifyJwt(token);
+    
+        // Verificar si el usuario existe en la BBDD
+        const user = await User.findById(data.id);
+
+        // Comprobar que existe el usuario
+        if(!user) {
+            returnMessage(res, 400, "Usuario no encontrado");
+        }
+
+        user.password = password;
+
+        await user.save();
+
+        returnMessage(res, 200, "Contraseña actualizada", user);
+
+    } catch (error) {
+        returnMessage(res, 400, "Ocurrió un error al restablecer la contraseña");
+    }
+}
+
+module.exports = { getUsers, getUserById, putUser, register, login, deleteUser, checkSession, validateEmail, resetPassword }
