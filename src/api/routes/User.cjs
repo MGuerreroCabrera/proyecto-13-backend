@@ -9,10 +9,7 @@ const { getUsers, getUserById, putUser, deleteUser, register, login, checkSessio
 userRoutes.get("/checksession", isAuth, checkSession);
 
 // Ruta para validar un email registrado
-userRoutes.get("/validatemail/:email", validateEmail);
-
-// Ruta para resetear password - //! PASAR LA PETICIÓN A POST
-userRoutes.get("/resetpassword", resetPassword);
+userRoutes.get("/validatemail", validateEmail);
 
 // Ruta para el listado por id
 userRoutes.get("/:id", isAuth, getUserById);
@@ -25,6 +22,9 @@ userRoutes.post('/register', register);
 
 // Ruta para realizar login
 userRoutes.post('/login', login);
+
+// Ruta para resetear password
+userRoutes.put("/resetpassword", resetPassword);
 
 // Ruta para actualizar un registro
 userRoutes.put('/:id', isAuth, putUser);

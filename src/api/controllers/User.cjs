@@ -148,7 +148,7 @@ const checkSession = async (req, res, next) => {
 const validateEmail = async (req, res, next) => {
     try {
         // Recoger el body del request que debe tener un atributo "email" con una direccion de correo electronica
-        const { email } = req.params;
+        const { email } = req.body;
         // Buscar el email en la BBDD
         const user = await User.findOne({ email: email });
         // Si encuentra un usuario con este correo electrónico devuelve resultado OK y envía un email al usuario con la ruta para reestablecer contraseña. 
