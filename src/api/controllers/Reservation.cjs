@@ -15,7 +15,6 @@ const { formatDate } = require("../../utils/formatDate.cjs");
 const getReservations = async (req, res, next) => {
     try {
         // Crear variable que contendrá los registros
-        //const reservations = await Reservation.find().populate("housingId").populate("customerId");
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 10;
 

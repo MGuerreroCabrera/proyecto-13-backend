@@ -12,6 +12,7 @@ const getHousings = async (req, res, next) => {
         const limit = parseInt(req.query.limit) || 10;
 
         const housings = await Housing.find()
+            .populate('features.feature')
             .skip((page - 1) * limit)
             .limit(limit);
 
