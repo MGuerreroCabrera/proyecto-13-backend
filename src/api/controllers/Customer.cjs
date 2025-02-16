@@ -10,6 +10,7 @@ const getCustomers = async (req, res, next) => {
         const limit = parseInt(req.query.limit) || 10;
 
         const customers = await Customer.find()
+            .sort({ createdAt: -1 })
             .skip((page - 1) * limit)
             .limit(limit);
 
@@ -26,18 +27,19 @@ const getCustomers = async (req, res, next) => {
     }
 }
 
-// const getCustomers = async (req, res, next) => {
-//     try {
-//         // Crear variable que contendrá los registros
-//         const customers = await Customer.find();
+// Función que devuelv
+const getAllCustomers = async (req, res, next) => {
+    try {
+        // Crear variable que contendrá los registros
+        const customers = await Customer.find();
 
-//         // Devolver el resultado OK y el listado de registros
-//         returnMessage(res, 200, "Todo ha ido OK", customers);
+        // Devolver el resultado OK y el listado de registros
+        returnMessage(res, 200, "Todo ha ido OK", customers);
 
-//     } catch (error) {
-//         returnMessage(res, 400, "Error al listar los registros");
-//     }
-// }
+    } catch (error) {
+        returnMessage(res, 400, "Error al listar los registros");
+    }
+}
 
 // Función que devuelve un registro por id
 const getCustomerById = async (req, res, next) => {
@@ -137,4 +139,4 @@ const deleteCustomer = async (req, res, next) => {
 }
 
 // Exportar funciones
-module.exports = { getCustomers, getCustomerById, postCustomer, putCustomer, deleteCustomer };
+module.exports = { getCustomers, getAllCustomers, getCustomerById, postCustomer, putCustomer, deleteCustomer };

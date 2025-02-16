@@ -10,7 +10,8 @@ const reservationSchema = new mongoose.Schema(
         children: { type: Number, required: true },
         amount: { type: Number, required: true },
         housingId: { type: mongoose.Schema.Types.ObjectId, ref: "housings", required: true },
-        customerId: { type: mongoose.Schema.Types.ObjectId, ref: "customers", required: true }
+        customerId: { type: mongoose.Schema.Types.ObjectId, ref: "customers", required: true },
+        customerWishes: { type: String, required: false }
     }, 
     {
         timestamps: true,

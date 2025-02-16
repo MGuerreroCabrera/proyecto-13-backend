@@ -19,6 +19,7 @@ const getReservations = async (req, res, next) => {
         const limit = parseInt(req.query.limit) || 10;
 
         const reservations = await Reservation.find().populate("housingId").populate("customerId")
+            .sort({checkIn: -1})
             .skip((page - 1) * limit)
             .limit(limit);
 
