@@ -6,15 +6,16 @@ const express = require('express');
 const cors = require('cors');
 const { connectDB } = require('./src/config/db.cjs');
 
-// Importar el enrutado
-const mainRouter = require("./src/api/routes/main.cjs");
-const userRoutes = require('./src/api/routes/User.cjs');
 
 // Crear aplicación de Express
 const app = express();
 
 // Habilitar CORS para las peticiones
 app.use(cors());
+
+// Importar el enrutado
+const mainRouter = require("./src/api/routes/main.cjs");
+const userRoutes = require('./src/api/routes/User.cjs');
 
 // Permitir que el servidor reciba datos en formato json
 app.use(express.json());
