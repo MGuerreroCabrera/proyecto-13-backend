@@ -15,7 +15,6 @@ app.use(cors());
 
 // Importar el enrutado
 const mainRouter = require("./src/api/routes/main.cjs");
-const userRoutes = require('./src/api/routes/User.cjs');
 
 // Permitir que el servidor reciba datos en formato json
 app.use(express.json());
