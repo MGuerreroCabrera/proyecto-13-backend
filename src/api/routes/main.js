@@ -1,9 +1,9 @@
 // Importar las rutas
-const userRoutes = require("./User.cjs");
-const custormerRoutes = require("./Customer.cjs");
-const featureRoutes = require("./Feature.cjs");
-const housingRoutes = require("./Housing.cjs");
-const reservationRoutes = require("./Reservation.cjs");
+const userRoutes = require("./User.js");
+const custormerRoutes = require("./Customer.js");
+const featureRoutes = require("./Feature.js");
+const housingRoutes = require("./Housing.js");
+const reservationRoutes = require("./Reservation.js");
 
 // Crear enrutado principal
 const mainRouter = require("express").Router();

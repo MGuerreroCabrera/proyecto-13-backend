@@ -1,10 +1,10 @@
-const { returnMessage } = require("../../utils/returnMessage.cjs");
+const { returnMessage } = require("../../utils/returnMessage.js");
 const bcrypt = require("bcrypt");
 
-const User = require("../models/User.cjs");
-const { generateSign, verifyJwt } = require("../../config/jwt.cjs");
-const { sendMail } = require("../../utils/mailer.cjs");
-const { getResetUserPWD } = require("../../utils/getUserResNotification.cjs");
+const User = require("../models/User.js");
+const { generateSign, verifyJwt } = require("../../config/jwt.js");
+const { sendMail } = require("../../utils/mailer.js");
+const { getResetUserPWD } = require("../../utils/getUserResNotification.js");
 
 // Función que devuelve todos los usuarios de la base de datos.
 const getUsers = async (req, res, next) => {

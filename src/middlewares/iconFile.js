@@ -4,7 +4,7 @@ const multer = require("multer");
 // Importar la clase CloudinaryStorage de multer-storage-cloudinary
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
-const cloudinary = require("../config/cloudinaryConfig.cjs");
+const cloudinary = require("../config/cloudinaryConfig.js");
 
 // Configuración del almacenamiento en Cloudinary
 const storage = new CloudinaryStorage({

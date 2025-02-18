@@ -2,13 +2,13 @@
 const housingRoutes = require('express').Router();
 
 // Importar los middlewares
-const { isAuth } = require('../../middlewares/auth.cjs');
-const { uploadAndProcessImage } = require('../../middlewares/uploadAndProcessImage.cjs');
+const { isAuth } = require('../../middlewares/auth.js');
+const { uploadAndProcessImage } = require('../../middlewares/uploadAndProcessImage.js');
 
 
 
 // Importar los métodos del controlador
-const { getHousingById, getHousings, postHousing, putHousing, deleteHousing, deleteHousingFeature, postHousingImage, deleteHousingImage } = require("../controllers/Housing.cjs");
+const { getHousingById, getHousings, postHousing, putHousing, deleteHousing, deleteHousingFeature, postHousingImage, deleteHousingImage } = require("../controllers/Housing.js");
 
 // Ruta para el listado por id
 housingRoutes.get("/:id", getHousingById)

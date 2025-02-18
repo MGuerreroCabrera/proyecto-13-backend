@@ -4,7 +4,7 @@ require('dotenv').config();
 const express = require('express');
 // Importar librería CORS para permitir solicitudes desde cualquier origen
 const cors = require('cors');
-const { connectDB } = require('./src/config/db.cjs');
+const { connectDB } = require('./src/config/db.js');
 
 
 // Crear aplicación de Express
@@ -14,7 +14,7 @@ const app = express();
 app.use(cors());
 
 // Importar el enrutado
-const mainRouter = require("./src/api/routes/main.cjs");
+const mainRouter = require("./src/api/routes/main.js");
 
 // Permitir que el servidor reciba datos en formato json
 app.use(express.json());

@@ -1,9 +1,9 @@
-const { returnMessage } = require("../../utils/returnMessage.cjs");
+const { returnMessage } = require("../../utils/returnMessage.js");
 
 // Importar el modelo Housing
-const Housing = require("../models/Housing.cjs");
+const Housing = require("../models/Housing.js");
 
-const { deleteImageFromCloudinary } = require("../../utils/deleteImageFromCloudinary.cjs");
+const { deleteImageFromCloudinary } = require("../../utils/deleteImageFromCloudinary.js");
 
 // Función que lista todos los registros de la colección
 const getHousings = async (req, res, next) => {

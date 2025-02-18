@@ -1,7 +1,7 @@
-const Customer = require("../models/Customer.cjs");
+const Customer = require("../models/Customer.js");
 
-const { returnMessage } = require("../../utils/returnMessage.cjs");
-const { checkCustomerExists } = require("../../utils/checkCustomerExists.cjs");
+const { returnMessage } = require("../../utils/returnMessage.js");
+const { checkCustomerExists } = require("../../utils/checkCustomerExists.js");
 
 // Función que devulve el listado de registros de la colección
 const getCustomers = async (req, res, next) => {

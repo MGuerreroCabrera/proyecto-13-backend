@@ -1,15 +1,15 @@
 
-const { sendMail } = require("../../utils/mailer.cjs");
-const { returnMessage } = require("../../utils/returnMessage.cjs");
+const { sendMail } = require("../../utils/mailer.js");
+const { returnMessage } = require("../../utils/returnMessage.js");
 
 // Importar modelos necesarios
-const Reservation = require("../models/Reservation.cjs");
-const User = require("../models/User.cjs");
-const Housing = require("../models/Housing.cjs");
-const { getUserResNotification } = require("../../utils/getUserResNotification.cjs");
-const Customer = require("../models/Customer.cjs");
-const { getCustomerResNotification } = require("../../utils/getCustomerResNotification.cjs");
-const { formatDate } = require("../../utils/formatDate.cjs");
+const Reservation = require("../models/Reservation.js");
+const User = require("../models/User.js");
+const Housing = require("../models/Housing.js");
+const { getUserResNotification } = require("../../utils/getUserResNotification.js");
+const Customer = require("../models/Customer.js");
+const { getCustomerResNotification } = require("../../utils/getCustomerResNotification.js");
+const { formatDate } = require("../../utils/formatDate.js");
 
 // Función que lista todos los registros de la colección
 const getReservations = async (req, res, next) => {

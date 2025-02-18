@@ -1,11 +1,11 @@
 // Importar el método Routes de express
 const featureRoutes = require('express').Router();
 
-const { isAuth } = require('../../middlewares/auth.cjs');
-const uploadIcon = require('../../middlewares/iconFile.cjs');
+const { isAuth } = require('../../middlewares/auth.js');
+const uploadIcon = require('../../middlewares/iconFile.js');
 
 // Importar el controlador Features
-const { getFeatures, getFeature, postFeature, deleteFeature } = require("../controllers/Feature.cjs");
+const { getFeatures, getFeature, postFeature, deleteFeature } = require("../controllers/Feature.js");
 
 // Ruta para el listado por id
 featureRoutes.get('/:id', isAuth, getFeature);

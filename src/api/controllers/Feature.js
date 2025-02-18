@@ -1,9 +1,9 @@
-const { returnMessage } = require("../../utils/returnMessage.cjs");
+const { returnMessage } = require("../../utils/returnMessage.js");
 
 // Importar el modelo
-const Feature = require("../models/Feature.cjs");
+const Feature = require("../models/Feature.js");
 
-const { deleteImageFromCloudinary } = require("../../utils/deleteImageFromCloudinary.cjs");
+const { deleteImageFromCloudinary } = require("../../utils/deleteImageFromCloudinary.js");
 
 // Función que lista los registros de la colección
 const getFeatures = async (req, res, next) => {

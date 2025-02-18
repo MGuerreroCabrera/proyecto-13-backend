@@ -1,9 +1,9 @@
 // Importar el método Routes de express
 const reservationRoutes = require('express').Router();
 
-const { isAuth } = require('../../middlewares/auth.cjs');
+const { isAuth } = require('../../middlewares/auth.js');
 // Importar el controlador Reservation
-const { getReservationById, postReservation, putReservation, deleteReservation, getReservations, checkAvailability } = require("../controllers/Reservation.cjs");
+const { getReservationById, postReservation, putReservation, deleteReservation, getReservations, checkAvailability } = require("../controllers/Reservation.js");
 
 // Ruta para el listado por id
 reservationRoutes.get('/:id', isAuth, getReservationById);

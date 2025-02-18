@@ -1,9 +1,9 @@
 // Importar el método Routes de express
 const userRoutes = require('express').Router();
 
-const { isAdmin, isAuth } = require('../../middlewares/auth.cjs');
+const { isAdmin, isAuth } = require('../../middlewares/auth.js');
 // Importar el controlador User
-const { getUsers, getUserById, putUser, deleteUser, register, login, checkSession, validateEmail, resetPassword } = require("../controllers/User.cjs");
+const { getUsers, getUserById, putUser, deleteUser, register, login, checkSession, validateEmail, resetPassword } = require("../controllers/User.js");
 
 // Ruta para checkear la sesión del usaurio
 userRoutes.get("/checksession", isAuth, checkSession);

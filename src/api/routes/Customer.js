@@ -1,9 +1,9 @@
 // Importar el método Routes de express
 const customerRoutes = require('express').Router();
 
-const { isAuth } = require('../../middlewares/auth.cjs');
+const { isAuth } = require('../../middlewares/auth.js');
 // Importar controladores
-const { getCustomers, getCustomerById, postCustomer, putCustomer, deleteCustomer, getAllCustomers } = require("../controllers/Customer.cjs");
+const { getCustomers, getCustomerById, postCustomer, putCustomer, deleteCustomer, getAllCustomers } = require("../controllers/Customer.js");
 
 // Ruta para la descarga de todos los registros de la colección
 customerRoutes.get('/downloadlist', getAllCustomers);

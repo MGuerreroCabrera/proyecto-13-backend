@@ -1,6 +1,6 @@
 // Importar configuración de cloudinary
-const cloudinary = require("../config/cloudinaryConfig.cjs");
-const { returnMessage } = require("./returnMessage.cjs");
+const cloudinary = require("../config/cloudinaryConfig.js");
+const { returnMessage } = require("./returnMessage.js");
 
 // Función que elimina una imagen de cloudinary
 const deleteImageFromCloudinary = async (res, publicId) => {

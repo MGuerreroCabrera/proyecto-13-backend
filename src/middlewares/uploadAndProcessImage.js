@@ -5,7 +5,7 @@ const multer = require("multer");
 const sharp = require("sharp");
 
 // Importar la configuración de Cloudinary desde el archivo de configuración
-const cloudinary = require("../config/cloudinaryConfig.cjs");
+const cloudinary = require("../config/cloudinaryConfig.js");
 
 // Configurar el almacenamiento en memoria para multer
 const storage = multer.memoryStorage();

@@ -1,6 +1,6 @@
-const User = require("../api/models/User.cjs");
-const { verifyJwt } = require("../config/jwt.cjs");
-const { returnMessage } = require("../utils/returnMessage.cjs");
+const User = require("../api/models/User.js");
+const { verifyJwt } = require("../config/jwt.js");
+const { returnMessage } = require("../utils/returnMessage.js");
 
 const verifyUser = async (req, res, next, requireAdmin = false) => {
     try {

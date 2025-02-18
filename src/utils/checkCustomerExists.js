@@ -1,5 +1,5 @@
 // Función que comprueba si existe un customer en la BBDD
-const customer = require("../api/models/Customer.cjs");
+const customer = require("../api/models/Customer.js");
 
 const checkCustomerExists = async (email) => {
     try {
