@@ -7,13 +7,39 @@ const { sendMail } = require("../../utils/mailer.js");
 const { getResetUserPWD } = require("../../utils/getUserResNotification.js");
 
 // Función que devuelve todos los usuarios de la base de datos.
+// const getUsers = async (req, res, next) => {
+//     try {
+//         // Crear variable que contendrá los registros
+//         const users = await User.find();
+
+//         // Devolver resultado OK y los registros
+//         returnMessage(res, 200, "Todo ha ido OK", users);
+
+//     } catch (error) {
+//         returnMessage(res, 400, "Error al listar los registros");
+//     }
+// }
 const getUsers = async (req, res, next) => {
     try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+
         // Crear variable que contendrá los registros
-        const users = await User.find();
+        const users = await User.find()
+        .skip((page - 1) * limit)
+        .limit(limit);
+
+        const totalRecords = await User.countDocuments();
+
+        return res.status(200).json({
+            records: users,
+            totalRecords: totalRecords,
+            page: page,
+            limit: limit
+        });
 
         // Devolver resultado OK y los registros
-        returnMessage(res, 200, "Todo ha ido OK", users);
+        //returnMessage(res, 200, "Todo ha ido OK", users);
 
     } catch (error) {
         returnMessage(res, 400, "Error al listar los registros");

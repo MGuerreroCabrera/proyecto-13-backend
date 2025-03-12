@@ -17,14 +17,14 @@ const getFeatures = async (req, res, next) => {
 
         const totalRecords = await Feature.countDocuments();
 
-        res.status(200).json({
+        return res.status(200).json({
             records: features,
             totalRecords: totalRecords,
             page: page,
             limit: limit
         });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        return res.status(500).json({ message: error.message });
     }
 }
 
