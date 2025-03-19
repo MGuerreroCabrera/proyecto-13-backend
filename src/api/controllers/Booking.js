@@ -3,7 +3,7 @@ const { sendMail } = require("../../utils/mailer.js");
 const { returnMessage } = require("../../utils/returnMessage.js");
 
 // Importar modelos necesarios
-const Reservation = require("../models/Reservation.js");
+const Booking = require("../models/Booking.js");
 const User = require("../models/User.js");
 const Housing = require("../models/Housing.js");
 const { getUserResNotification } = require("../../utils/getUserResNotification.js");
@@ -12,21 +12,21 @@ const { getCustomerResNotification } = require("../../utils/getCustomerResNotifi
 const { formatDate } = require("../../utils/formatDate.js");
 
 // Función que lista todos los registros de la colección
-const getReservations = async (req, res, next) => {
+const getBookings = async (req, res, next) => {
     try {
         // Crear variable que contendrá los registros
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 10;
 
-        const reservations = await Reservation.find().populate("housingId").populate("customerId")
+        const bookings = await Booking.find().populate("housingId").populate("customerId")
             .sort({checkIn: -1})
             .skip((page - 1) * limit)
             .limit(limit);
 
-        const totalRecords = await Reservation.countDocuments();
+        const totalRecords = await Booking.countDocuments();
 
         return res.status(200).json({
-            records: reservations,
+            records: bookings,
             totalRecords: totalRecords,
             page: page,
             limit: limit
@@ -37,16 +37,16 @@ const getReservations = async (req, res, next) => {
 }
 
 // Función que lista un registro por su id
-const getReservationById = async (req, res, next) => {
+const getBookingById = async (req, res, next) => {
     try {
         // Recoger el id del registro a mostrar
         const { id } = req.params;
 
         // Buscar el registro por su id
-        const reservation = await Reservation.findById(id).populate("housingId").populate("customerId");
+        const booking = await Booking.findById(id).populate("housingId").populate("customerId");
 
         // Devolver resultado OK y el registro
-        returnMessage(res, 200, "Todo ha ido OK", reservation);
+        returnMessage(res, 200, "Todo ha ido OK", booking);
 
     } catch (error) {
         returnMessage(res, 400, "Error al listar el registro");
@@ -59,7 +59,7 @@ const checkAvailability = async (req, res, next) => {
         const { checkIn, checkOut, housingId } = req.body;
 
         // Buscar reservas de esa vivienda y que se solapen las fechas
-        const conflictingReservations = await Reservation.find({
+        const conflictingBookings = await Booking.find({
             housingId: housingId,
             // Buscar posibles reservas que puedan entrar en conflicto con las fechas indicadas
             $or: [
@@ -72,7 +72,7 @@ const checkAvailability = async (req, res, next) => {
             ]
         });
 
-        if (conflictingReservations.length > 0) {
+        if (conflictingBookings.length > 0) {
             // Si hay reservas conflictivas, la vivienda no está disponible
             return returnMessage(res, 200, "La vivienda no está disponible para las fechas seleccionadas", { available: false });
         }
@@ -85,19 +85,19 @@ const checkAvailability = async (req, res, next) => {
 }
 
 // Función que crea un nuevo registro en la colección
-const postReservation = async (req, res, next) => {
+const postBooking = async (req, res, next) => {
     try {
         // Crear la variable que contendrá los datos
-        const newReservation = new Reservation(req.body);
+        const newBooking = new Booking(req.body);
 
         // Guardar el nuevo registro en la base de datos
-        const reservation = await newReservation.save();
+        const booking = await newBooking.save();
 
         // Recoger los datos de la vivienda que se ha reservado
-        const housingData = await Housing.findById(reservation.housingId);
+        const housingData = await Housing.findById(booking.housingId);
         
         // Recoger los datos del cliente
-        const customerData = await Customer.findById(reservation.customerId)             ;
+        const customerData = await Customer.findById(booking.customerId)             ;
 
         // Buscar los usuarios en la BBDD
         const users = await User.find();
@@ -120,29 +120,29 @@ const postReservation = async (req, res, next) => {
         await sendMail(customerData.email, customerNotificationSubject, customerNotificationBody, customerNotificationBody);
 
         // Devolver resultado OK y nuevo registro
-        returnMessage(res, 201, "Registro creado con éxito y correo enviado", reservation);
+        returnMessage(res, 201, "Registro creado con éxito y correo enviado", booking);
     } catch (error) {
         returnMessage(res, 400, "Error al crear el registro", error);
     }
 }
 
 // Función que actualiza un registro de la colección
-const putReservation = async (req, res, next) => {
+const putBooking = async (req, res, next) => {
     try {
         // Recoger el id del campo a actualizar
         const { id } = req.params;
 
         // Recoger los datos nuevos del registro a actualizar
-        const newReservation = new Reservation(req.body);
+        const newBooking = new Booking(req.body);
 
         // Poner mismo id al registro
-        newReservation._id = id;
+        newBooking._id = id;
 
         // Actualizar registro en la base de datos
-        const reservationUpdated = await Reservation.findByIdAndUpdate(id, newReservation, { new: true });
+        const bookingUpdated = await Booking.findByIdAndUpdate(id, newBooking, { new: true });
         
         // Devolver resultado OK y el registro actualizado
-        returnMessage(res, 200, "Registro actualizado con éxito", reservationUpdated);
+        returnMessage(res, 200, "Registro actualizado con éxito", bookingUpdated);
     } catch (error) {
         const { id } = req.params;
         returnMessage(res, 400, "Error al actualizar el registro", id);
@@ -150,20 +150,20 @@ const putReservation = async (req, res, next) => {
 }
 
 // Función que elimina un registro de la colección
-const deleteReservation = async (req, res, next) => {
+const deleteBooking = async (req, res, next) => {
     try {
         // Recoger el id del registro a eliminar
         const { id } = req.params;
 
         // Eliminar el registro de la BBDD
-        const reservationDeleted = await Reservation.findByIdAndDelete(id);
+        const bookingDeleted = await Booking.findByIdAndDelete(id);
 
         // Devolver resultado OK y registro eliminado
-        returnMessage(res, 200, "Registro eliminado con éxito", reservationDeleted);
+        returnMessage(res, 200, "Registro eliminado con éxito", bookingDeleted);
     } catch (error) {
         returnMessage(res, 400, "Error al eliminar el registro" );
     }
 }
 
 // Exportar las funciones del controlador
-module.exports = { getReservations, getReservationById, checkAvailability, postReservation, putReservation, deleteReservation };
+module.exports = { getBookings, getBookingById, checkAvailability, postBooking, putBooking, deleteBooking };
