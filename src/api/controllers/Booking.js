@@ -97,7 +97,7 @@ const postBooking = async (req, res, next) => {
         const housingData = await Housing.findById(booking.housingId);
         
         // Recoger los datos del cliente
-        const customerData = await Customer.findById(booking.customerId)             ;
+        const customerData = await Customer.findById(booking.customerId);
 
         // Buscar los usuarios en la BBDD
         const users = await User.find();
