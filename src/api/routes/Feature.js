@@ -8,16 +8,16 @@ const uploadIcon = require('../../middlewares/iconFile.js');
 const { getFeatures, getFeature, postFeature, deleteFeature } = require("../controllers/Feature.js");
 
 // Ruta para el listado por id
-featureRoutes.get('/:id', isAuth, getFeature);
+featureRoutes.get("/:id", isAuth, getFeature);
 
 // Ruta para el listado de registros
-featureRoutes.get('/', getFeatures);
+featureRoutes.get("/", getFeatures);
 
 // Ruta para insertar un registro
-featureRoutes.post('/', isAuth, uploadIcon.single("icon"), postFeature);
+featureRoutes.post("/", isAuth, uploadIcon.single("icon"), postFeature);
 
 // Ruta para eliminar un registro
-featureRoutes.delete('/:id', isAuth, deleteFeature);
+featureRoutes.delete("/:id", isAuth, deleteFeature);
 
 // Exportar las rutas
 module.exports = featureRoutes;

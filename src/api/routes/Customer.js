@@ -6,22 +6,22 @@ const { isAuth } = require('../../middlewares/auth.js');
 const { getCustomers, getCustomerById, postCustomer, putCustomer, deleteCustomer, getAllCustomers } = require("../controllers/Customer.js");
 
 // Ruta para la descarga de todos los registros de la colección
-customerRoutes.get('/downloadlist', getAllCustomers);
+customerRoutes.get("/downloadlist", getAllCustomers);
 
 // Ruta para el listado por id
-customerRoutes.get('/:id', isAuth, getCustomerById);
+customerRoutes.get("/:id", isAuth, getCustomerById);
 
 // Ruta para el listado de registros
-customerRoutes.get('/', getCustomers);
+customerRoutes.get("/", getCustomers);
 
 // Ruta para insertar un registro
-customerRoutes.post('/', postCustomer);
+customerRoutes.post("/", postCustomer);
 
 // Ruta para actualizar un registro
-customerRoutes.put('/:id', isAuth, putCustomer);
+customerRoutes.put("/:id", isAuth, putCustomer);
 
 // Ruta para eliminar un registro
-customerRoutes.delete('/:id', isAuth, deleteCustomer); 
+customerRoutes.delete("/:id", isAuth, deleteCustomer); 
 
 // Exportar las rutas
 module.exports = customerRoutes;
