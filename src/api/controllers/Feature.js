@@ -28,6 +28,16 @@ const getFeatures = async (req, res, next) => {
     }
 }
 
+// Función que devuelve todos los registros sin paginar
+const getAllFeatures = async (req, res, next) => {
+    try {
+        const features = await Feature.find();
+        returnMessage(res, 200, "Todo ha ido OK", features);
+    } catch (error) {
+        returnMessage(res, 400, "Error al listar los registros");
+    }
+}
+
 // Función que lista un registro de la colección por el id
 const getFeature = async (req, res, next) => {
     try {
@@ -40,7 +50,7 @@ const getFeature = async (req, res, next) => {
     // Devolver resultado OK y el registro
     returnMessage(res, 200, "Todo ha ido OK", feature);
     } catch (error) {
-        returnMessage(res, 400, "Error al listar el registro", id);
+        returnMessage(res, 400, "Error al listar el registro");
     }
 }
 
@@ -96,4 +106,4 @@ const deleteFeature = async (req, res, next) => {
 }
 
 // Exportar funciones del controlador
-module.exports = { getFeatures, getFeature, postFeature, deleteFeature }
+module.exports = { getFeatures, getAllFeatures, getFeature, postFeature, deleteFeature }
