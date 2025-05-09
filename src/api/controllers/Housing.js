@@ -80,9 +80,6 @@ const putHousing = async (req, res, next) => {
         // Poner mismo id al registro
         newHousing._id = id;
 
-        // Asignar las caracterísicas antiguas al nuevo registro
-        newHousing.features = [...oldHousing.features, ...newHousing.features];
-
         // Asignar las mismas imágenes que tenía
         newHousing.images = [...oldHousing.images, ...newHousing.images];
 
