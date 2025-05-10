@@ -14,7 +14,8 @@ const housingSchema = new mongoose.Schema(
         images: [{
             url: { type: String, required: false },
             alt: { type: String, required: false }
-        }]
+        }],
+        price: { type: Number, required: true }
     },
     {
         timestamps: true,
