@@ -152,7 +152,6 @@ const deleteUser = async (req, res, next) => {
 
 // Función que valida si un token es válido
 const checkSession = async (req, res, next) => {
-    console.log(res);
     return res.status(200).json({ user: req.user, token: req.headers.authorization });
 }
 
