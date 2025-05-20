@@ -152,7 +152,8 @@ const deleteUser = async (req, res, next) => {
 
 // Función que valida si un token es válido
 const checkSession = async (req, res, next) => {
-    return res.status(200).json({ user: req.user, token: req.headers.authorization });
+    // return res.status(200).json({ user: req.user, token: req.headers.authorization });
+    return;
 }
 
 // Función que recibe una dirección de correo electrónico del usuario y devuelve si es un email válido o no

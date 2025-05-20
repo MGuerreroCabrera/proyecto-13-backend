@@ -6,9 +6,7 @@ const { isAdmin, isAuth } = require('../../middlewares/auth.js');
 const { getUsers, getUserById, putUser, deleteUser, register, login, checkSession, validateEmail, resetPassword } = require("../controllers/User.js");
 
 // Ruta para checkear la sesión del usaurio
-// userRoutes.get("/checksession", isAuth, checkSession);
-
-userRoutes.get("/checksession", checkSession);
+userRoutes.get("/checksession", isAuth, checkSession);
 
 // Ruta para el listado por id
 userRoutes.get("/:id", isAuth, getUserById);
