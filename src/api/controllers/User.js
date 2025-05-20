@@ -112,9 +112,9 @@ const putUser = async (req, res, next) => {
         const { id } = req.params;
 
         // Comprobar que el usuario a modificar es el mismo que realiza la acción
-        // if(req.user._id.toString() !== id){
-        //     returnMessage(res, 400, `${req.user.name}, no puedes modificar los datos de otro usuario`, id);
-        // }
+        if(req.user._id.toString() !== id){
+            returnMessage(res, 400, `${req.user.name}, no puedes modificar los datos de otro usuario`, id);
+        }
 
         // Recoger los datos del registros a actualizar
         const newUser = new User(req.body);
@@ -130,7 +130,6 @@ const putUser = async (req, res, next) => {
 
     } catch (error) {
         return res.status(400).json({ error });
-        //returnMessage(res, 400, "Error al actualizar el registro");
     }
 }
 
